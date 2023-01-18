@@ -1,0 +1,621 @@
+ <!DOCTYPE HTML>
+ <html>
+	<head>
+		<title>DONT MINE AT NIGHT</title>
+		<style>
+		body
+		{
+			background-color:#3ec549;
+			padding-left:25px;
+			padding-right:25px;
+		}
+		td,th
+		{
+			width: 50%;
+			font-family: comic sans ms;
+			text-align: center;
+		}
+		table
+		{
+			width: 100%;
+		}
+		th
+		{
+			font-size: 24px;
+			text-decoration: underline;
+		}
+		h1, h2, div
+		{
+			font-family: comic sans ms;
+			text-align: center;
+		}
+		h1
+		{
+			text-decoration: underline;
+		}
+		#titletext
+		{
+			width:55%;
+		}
+		div
+		{
+			color:grey;
+		}
+		img
+		{
+			width: 25%;
+		}
+		#userstrength, #computerstrength, #usercunning, #computercunning, #userspeed, #computerspeed, #userfatigue, #computerfatigue
+		{
+			color:green;
+		}
+		#originaluserstrength, #originalcomputerstrength, #originalusercunning, #originalcomputercunning, #originaluserspeed, #originalcomputerspeed, #originaluserfatigue, #originalcomputerfatigue
+		{
+			color:grey;
+			font-size:8pt;
+		}
+		#clickattack,#clickdefend
+		{
+			width:5%;
+			cursor: pointer;
+		}
+		#finalattack
+		{
+			text-align:center;
+			cursor: pointer;
+			width:15%;
+		}
+		button
+		{
+			background: transparent;
+			border: 2px solid;
+			font-size: 24px;
+			font-family: comic sans ms;
+			cursor: pointer;
+		} 
+		</style>
+		<script src = "utilities.js"></script>
+		<script>
+		function initialize()
+		{
+			userStrength = 6;
+			userCunning = 6; 
+			userSpeed = 6; 
+			userFatigue = 30;
+			
+			compStrength = 6; 
+			compCunning = 6; 
+			compSpeed = 6;
+			compFatigue = 30; 
+			
+			ogUserStrength = 6;
+			ogUserCunning = 6; 
+			ogUserSpeed = 6; 
+			ogUserFatigue = 30;
+			
+			ogCompStrength = 6; 
+			ogCompCunning = 6; 
+			ogCompSpeed = 6;
+			ogCompFatigue = 30; 
+			
+			userDamage = 0;
+			compDamage = 0;
+
+			userAttack = 0;
+			userDefending = false;
+			userFinalAttacking = false;
+
+			compAttack = 0;
+			compDefending = false;
+			compFinalAttacking = false;
+			
+			round = 0;
+			
+			finalAttackButton = document.getElementById("finalattack");
+			finalAttackButton.style.display = "none";
+			
+			originalUserStrengthOutput = document.getElementById("originaluserstrength");
+			originalUserCunningOutput = document.getElementById("originalusercunning");
+			originalUserSpeedOutput = document.getElementById("originaluserspeed");
+			originalUserFatigueOutput = document.getElementById("originaluserfatigue");
+			
+			originalCompStrengthOutput = document.getElementById("originalcomputerstrength");
+			originalCompCunningOutput = document.getElementById("originalcomputercunning");
+			originalCompSpeedOutput = document.getElementById("originalcomputerspeed");
+			originalCompFatigueOutput = document.getElementById("originalcomputerfatigue");
+
+			introOutput = document.getElementById("intro");
+			userLogOutput = document.getElementById("fighteronelog");
+			compLogOutput = document.getElementById("fightertwolog");
+			
+			userStrengthOutput = document.getElementById("userstrength");
+			userCunningOutput = document.getElementById("usercunning");
+			userSpeedOutput = document.getElementById("userspeed");
+			userFatigueOutput = document.getElementById("userfatigue");
+			
+			compStrengthOutput = document.getElementById("computerstrength");
+			compCunningOutput = document.getElementById("computercunning");
+			compSpeedOutput = document.getElementById("computerspeed");
+			compFatigueOutput = document.getElementById("computerfatigue");
+			
+			randomStats("user");
+			randomStats("comp");
+			
+			userStrengthOutput.innerHTML = userStrength;
+			userCunningOutput.innerHTML = userCunning;
+			userSpeedOutput.innerHTML = userSpeed;
+			userFatigueOutput.innerHTML = userFatigue;
+			
+			compStrengthOutput.innerHTML = compStrength;
+			compCunningOutput.innerHTML = compCunning;
+			compSpeedOutput.innerHTML = compSpeed;
+			compFatigueOutput.innerHTML = compFatigue;
+			
+		}
+		function clearIntro()
+		{
+			introOutput.innerHTML = "";
+		}
+		function randomStats(player)
+		{
+			var increaseFirst = getRandomInteger(1,4);
+			var increaseSecond = getRandomInteger(1,4); 
+			var decreaseFirst = getRandomInteger(1,4); 
+			var decreaseSecond = getRandomInteger(1,4); 
+			while (increaseSecond == increaseFirst || increaseSecond == decreaseFirst || increaseSecond == decreaseSecond)
+			{
+				increaseSecond = getRandomInteger(1,4);
+			}
+			while (decreaseFirst == increaseFirst || decreaseFirst == increaseSecond || decreaseFirst == decreaseSecond)
+			{
+				decreaseFirst = getRandomInteger(1,4);
+			}
+			while (decreaseSecond == increaseFirst || decreaseSecond == increaseSecond || decreaseSecond == decreaseFirst)
+			{
+				decreaseSecond = getRandomInteger(1,4);
+			}
+			
+			if (player == "user")
+			{
+				if (increaseFirst == 1)
+				{
+					userStrength += getRandomInteger(0,1);
+				} else {
+					if (increaseFirst == 2)
+					{
+						userCunning += getRandomInteger(0,1);
+					} else {
+						if (increaseFirst == 3)
+						{
+							userSpeed += getRandomInteger(0,1);
+						} else {
+							userFatigue += getRandomInteger(0,6);
+						}
+					}
+				}
+				if (increaseSecond == 1)
+				{
+					userStrength += getRandomInteger(0,1);
+				} else {
+					if (increaseSecond == 2)
+					{
+						userCunning += getRandomInteger(0,1);
+					} else {
+						if (increaseSecond == 3)
+						{
+							userSpeed += getRandomInteger(0,1);
+						} else {
+							userFatigue += getRandomInteger(0,6);
+						}
+					}
+				}
+				if (decreaseFirst == 1)
+				{
+					userStrength -= getRandomInteger(0,1);
+				} else {
+					if (decreaseFirst == 2)
+					{
+						userCunning -= getRandomInteger(0,1);
+					} else {
+						if (decreaseFirst == 3)
+						{
+							userSpeed -= getRandomInteger(0,1);
+						} else {
+							userFatigue -= getRandomInteger(0,6);
+						}
+					}
+				}
+				if (decreaseSecond == 1)
+				{
+					userStrength -= getRandomInteger(0,1);
+				} else {
+					if (decreaseSecond == 2)
+					{
+						userCunning -= getRandomInteger(0,1);
+					} else {
+						if (decreaseSecond == 3)
+						{
+							userSpeed -= getRandomInteger(0,1);
+						} else {
+							userFatigue -= getRandomInteger(0,6);
+						}
+					}
+				}
+			} else {
+				if (increaseFirst == 1)
+				{
+					compStrength += getRandomInteger(0,1);
+				} else {
+					if (increaseFirst == 2)
+					{
+						compCunning += getRandomInteger(0,1);
+					} else {
+						if (increaseFirst == 3)
+						{
+							compSpeed += getRandomInteger(0,1);
+						} else {
+							compFatigue += getRandomInteger(0,6);
+						}
+					}
+				}
+				if (increaseSecond == 1)
+				{
+					compStrength += getRandomInteger(0,1);
+				} else {
+					if (increaseSecond == 2)
+					{
+						compCunning += getRandomInteger(0,1);
+					} else {
+						if (increaseSecond == 3)
+						{
+							compSpeed += getRandomInteger(0,1);
+						} else {
+							compFatigue += getRandomInteger(0,6);
+						}
+					}
+				}
+				if (decreaseFirst == 1)
+				{
+					compStrength -= getRandomInteger(0,1);
+				} else {
+					if (decreaseFirst == 2)
+					{
+						compCunning -= getRandomInteger(0,1);
+					} else {
+						if (decreaseFirst == 3)
+						{
+							compSpeed -= getRandomInteger(0,1);
+						} else {
+							compFatigue -= getRandomInteger(0,6);
+						}
+					}
+				}
+				if (decreaseSecond == 1)
+				{
+					compStrength -= getRandomInteger(0,1);
+				} else {
+					if (decreaseSecond == 2)
+					{
+						compCunning -= getRandomInteger(0,1);
+					} else {
+						if (decreaseSecond == 3)
+						{
+							compSpeed -= getRandomInteger(0,1);
+						} else {
+							compFatigue -= getRandomInteger(0,6);
+						}
+					}
+				}
+			}
+			ogUserStrength = userStrength;
+			ogUserCunning = userCunning;
+			ogUserSpeed = userSpeed;
+			ogUserFatigue = userFatigue;
+			
+			ogCompStrength = compStrength;
+			ogCompCunning = compCunning;
+			ogCompSpeed = compSpeed;
+			ogCompFatigue = compFatigue;
+			
+			originalUserStrengthOutput.innerHTML = "/" + ogUserStrength;
+			originalUserCunningOutput.innerHTML = "/" + ogUserCunning;
+			originalUserSpeedOutput.innerHTML = "/" + ogUserSpeed;
+			originalUserFatigueOutput.innerHTML = "/" + ogUserFatigue;
+			
+			originalCompStrengthOutput.innerHTML = "/" + ogCompStrength;
+			originalCompCunningOutput.innerHTML = "/" + ogCompCunning;
+			originalCompSpeedOutput.innerHTML = "/" + ogCompSpeed;
+			originalCompFatigueOutput.innerHTML = "/" + ogCompFatigue;
+		}
+		function userAttacks()
+		{
+			userAttack = userStrength + userSpeed + userCunning;
+			userAttack = userAttack / getRandomInteger(1,3);
+			userAttack = parseInt(userAttack);
+			
+			round ++;
+			userLogOutput.innerHTML = "(Round " + round + ") Steve attacks. </br>" + userLogOutput.innerHTML; 
+		
+			battle();
+		}
+		function userDefends()
+		{
+			userDefending = true; 
+			
+			round ++;
+			userLogOutput.innerHTML = "(Round " + round + ") Steve defends. </br>" + userLogOutput.innerHTML; 
+			
+			battle();
+		}
+		function userFinalAttacks()
+		{
+			userFinalAttacking = true;
+			
+			userAttack = userAttack = userStrength + userSpeed;
+			userAttack = userAttack / getRandomInteger(1,3);
+			userAttack = parseInt(userAttack);
+		
+			round++;
+			userLogOutput.innerHTML = "(Round " + round + ") Steve attempts a final attack. </br>" + userLogOutput.innerHTML; 
+			
+			battle();
+		}
+		function compMove()
+		{
+			if (compFatigue >= 2*userFatigue || userFatigue < 0)
+			{
+				compFinalAttacking = true;
+				
+				compAttack = compStrength + compSpeed + compCunning;
+				compAttack = compAttack / getRandomInteger(1,3);
+				compAttack = parseInt(compAttack);
+				
+				compLogOutput.innerHTML = "(Round " + round + ") Creeper attempts a final attack. </br>" + compLogOutput.innerHTML;
+			} else {
+				var decide = getRandomInteger(0,1);
+				if (decide == 0)
+				{
+					compAttack = compStrength + compSpeed + compCunning;
+					compAttack = compAttack / getRandomInteger(1,3);
+					compAttack = parseInt(compAttack);
+					
+					compLogOutput.innerHTML = "(Round " + round + ") Creeper attacks. </br>" + compLogOutput.innerHTML; 
+				} else {
+					compDefending = true;
+					
+					compLogOutput.innerHTML = "(Round " + round + ") Creeper defends. </br>" + compLogOutput.innerHTML;
+				}
+			}
+		}
+		function battle()
+		{
+			compMove(); 
+			
+			if (userDefending)
+			{
+				userDefense = userSpeed + userCunning;
+			} else 
+			{
+				userDefense = userSpeed + getRandomInteger(1,6);
+			}
+			if (compDefending)
+			{
+				compDefense = userSpeed + userCunning;
+			} else {
+				compDefense = userSpeed + getRandomInteger(1,6);
+			}
+			
+			if (userAttack > compDefense)
+			{
+				compDamage = userAttack - compDefense;
+				compFatigue -= compDamage;
+				
+				if (userFinalAttacking)
+				{
+					userLogOutput.innerHTML = "(Round " + round + ") Steve's final attack is successful, winning the game!</br>" + userLogOutput.innerHTML;
+					endGame("user");
+				} else
+				{
+					userLogOutput.innerHTML = "(Round " + round + ") Steve's attack is successful, reducing Creeper's fatigue by " + compDamage + ".</br>" + userLogOutput.innerHTML;
+				}
+				if (compDefending)
+					compLogOutput.innerHTML = "(Round " + round + ") Creeper's defense failed. </br>" + compLogOutput.innerHTML;
+			} else
+			{
+				if (compDefending == true)
+				{
+					compFatigue += getRandomInteger(1,6);
+					compLogOutput.innerHTML = "(Round " + round + ") Creeper's defense is successful and feels rejuvenated.</br>" + compLogOutput.innerHTML;
+				}  
+				
+				if (userDefending == false)
+				{
+					userLogOutput.innerHTML = "(Round " + round + ") Steve's attack failed. </br>" + userLogOutput.innerHTML;
+				}
+				
+			}
+			
+			if (compAttack > userDefense)
+			{
+				userDamage = compAttack - userDefense;
+				userFatigue -= userDamage;
+				if (compFinalAttacking)
+				{
+					compLogOutput.innerHTML = "(Round " + round + ") Creeper's final attack is successful, winning the game!</br>" + compLogOutput.innerHTML;
+					endGame("comp");
+				} else 
+				{
+					compLogOutput.innerHTML = "(Round " + round + ") Creeper's attack is successful, reducing Steve's fatigue by " + userDamage + ".</br>" + compLogOutput.innerHTML;
+				}
+				if (userDefending)
+					userLogOutput.innerHTML = "(Round " + round + ") Steve's defense failed. </br>" + userLogOutput.innerHTML;
+			} else
+			{
+				if (userDefending == true)
+				{
+					userFatigue += getRandomInteger(1,6);
+					userLogOutput.innerHTML = "(Round " + round + ") Steve's defense is successful and feels rejuvenated.</br>" + userLogOutput.innerHTML;
+				} 
+				if (compDefending == false)
+				{
+					compLogOutput.innerHTML = "(Round " + round + ") Creeper's attack failed. </br>" + compLogOutput.innerHTML;	
+				}
+			}
+			
+			var statsModifier = parseInt((ogUserFatigue - userFatigue)/5);
+			userStrength = ogUserStrength - statsModifier;
+			userSpeed = ogUserSpeed - statsModifier;
+			userCunning = ogUserCunning - statsModifier;
+			
+			var statsModifier = parseInt((ogCompFatigue - compFatigue)/5);
+			compStrength = ogCompStrength - statsModifier;
+			compSpeed = ogCompSpeed - statsModifier;
+			compCunning= ogCompCunning - statsModifier;
+			
+			//prevents stats from exceeding their original values
+			if (userStrength > ogUserStrength)
+				userStrength = ogUserStrength;
+			if (userSpeed > ogUserSpeed)
+				userSpeed = ogUserSpeed;
+			if (userCunning > ogUserCunning)
+				userCunning = ogUserCunning;
+			if (userFatigue > ogUserFatigue)
+				userFatigue = ogUserFatigue;
+			
+			if (compStrength > ogCompStrength)
+				compStrength = ogCompStrength;
+			if (compSpeed > ogCompSpeed)
+				compSpeed = ogCompSpeed;
+			if (compCunning > ogCompCunning)
+				compCunning = ogCompCunning;
+			if (compFatigue > ogCompFatigue)
+				compFatigue = ogCompFatigue;
+			//prevents stats (except fatigue) from going into negatives
+			if (userStrength < 0)
+				userStrength = 0;
+			if (userSpeed < 0)
+				userSpeed = 0;
+			if (userCunning < 0)
+				userCunning = 0;
+			
+			if (compStrength < 0)
+				compStrength = 0;
+			if (compSpeed < 0)
+				compSpeed = 0;
+			if (compCunning < 0)
+				compCunning = 0;
+			
+			userStrengthOutput.innerHTML = userStrength;
+			userCunningOutput.innerHTML = userCunning;
+			userSpeedOutput.innerHTML = userSpeed;
+			userFatigueOutput.innerHTML = userFatigue;
+			
+			compStrengthOutput.innerHTML = compStrength;
+			compCunningOutput.innerHTML = compCunning;
+			compSpeedOutput.innerHTML = compSpeed;
+			compFatigueOutput.innerHTML = compFatigue;
+
+			userDamage = 0;
+			compDamage = 0;
+			
+			userAttack = 0;
+			userDefending = false;
+			userFinalAttacking = false;
+			
+			compAttack = 0;
+			compDefending = false;
+			compFinalAttacking = false;
+			
+			displayFinalAttack();
+			
+			userLogOutput.innerHTML = "</br>" + userLogOutput.innerHTML;
+			compLogOutput.innerHTML = "</br>" + compLogOutput.innerHTML;
+		}
+		
+		function displayFinalAttack()
+		{
+			if (userFatigue >= 2*compFatigue || compFatigue < 0)
+			{
+				finalAttackButton.style.display = "initial";
+			} else 
+			{
+				finalAttackButton.style.display = "none";
+			}
+		}
+		
+		function endGame(player)
+		{
+			document.getElementById("removethisattheend").innerHTML = "";
+			introOutput.style.color = "red";
+			introOutput.style.fontSize = "108px";
+			if (player == "user")
+			{
+				introOutput.innerHTML = "VICTORY";
+			} else
+			{
+				if (player == "comp")
+				{
+					introOutput.innerHTML = "DEFEAT";
+				}
+			}
+		}
+		</script>
+	</head>
+	
+	<body onload = "initialize();">
+		<h1><img id = "titletext" src = "images/title.png"></img></h1>
+		<div id = "intro">
+		Everyone knows that you do not mine at night. </br>
+		But you did. </br>
+		Now the monster of the night has come to punish you for your ignorance!</br>
+		Strategically attack or defend to save yourself! Decrease the monster's fatigue so that it is negative or half your own in order
+		to perform a final attack! If it succeeds, you win the battle!</br>
+		But be careful, losing fatigue makes you weaker!
+		<h2><button id ="clearintrobutton" onclick = "clearIntro();">Okay! Let me at him!</button></h2>
+		</div>
+		</br>
+		<table>
+			<tr>
+				<th>Steve</th>
+				<th>Creeper</th>
+			</tr>
+			<tr>
+				<td><img src="images/fighter1.png"></img></td>
+				<td><img src="images/fighter2.png"></img></td>
+			</tr>
+			<tr>
+				<td>Strength: <span id="userstrength"></span><span id="originaluserstrength"></span></td>
+				<td>Strength: <span id="computerstrength"></span><span id="originalcomputerstrength"></span></td>
+			</tr>
+			<tr>
+				<td>Cunning: <span id="usercunning"></span><span id="originalusercunning"></span></td>
+				<td>Cunning: <span id="computercunning"></span><span id="originalcomputercunning"></span></td>
+			</tr>
+			<tr>
+				<td>Speed: <span id="userspeed"></span><span id="originaluserspeed"></span></td>
+				<td>Speed: <span id="computerspeed"></span><span id="originalcomputerspeed"></span></td>
+			</tr>
+			<tr>
+				<td>Fatigue: <span id="userfatigue"></span><span id="originaluserfatigue"></span></td>
+				<td>Fatigue: <span id="computerfatigue"></span><span id="originalcomputerfatigue"></span></td>
+			</tr>
+		</table>
+		<h2 id= "removethisattheend">
+		<img src = "images/attack.png" id = "clickattack" onclick = "userAttacks();"></img>
+		<img src = "images/defend.png" id = "clickdefend" onclick = "userDefends();"></img> 
+		</br> 
+		<img src = "images/finalattack.png" id="finalattack" onclick = "userFinalAttacks();"></img>
+		</h2>
+		
+		<table id = "combatlog">
+			<tr>
+				<th>Steve's Log</th>
+				<th>Creeper's Log</th>
+			</tr>
+			<tr>
+				<td id = "fighteronelog"></td>
+				<td id = "fightertwolog"></td>
+			</tr>
+		</table>
+	</body>
+</html>
